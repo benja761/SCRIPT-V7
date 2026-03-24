@@ -1335,5 +1335,156 @@ function Library:CreateWindow(title, options)
     return self
 end
 
-return Library
+getgenv().ValaryLibrary = Library
 
+local Window = Library:CreateWindow("South Bronx : The Trenches", {
+    Version = "v1.1.0",
+    HideKey = Enum.KeyCode.Z,
+})
+
+local MainTab = Window:AddTab("Main", "⌂")
+local VisualsTab = Window:AddTab("Visuals", "◉")
+local PlayersTab = Window:AddTab("Players", "◎")
+local SettingsTab = Window:AddTab("Settings", "⚙")
+
+local TeleportsSub = MainTab:AddSubTab("Teleports")
+do
+    local left = TeleportsSub:AddSection("Teleportation Utilities", "left")
+    left:AddDropdown("Select Location", {"Active ATM 🏧","Backpack Store 🎒","Bank 🏦","Black Market 💸","Box Job Apartments 📦","Casino 🎰","Marshmallow Shop 🍬","Heavy Magazine - Heavy Weapons"}, "Active ATM 🏧")
+    left:AddButton("Teleport To Selected Location", function() Window:Notify("Teleported to location (visual demo)") end)
+
+    local left2 = TeleportsSub:AddSection("Waypoint Teleports", "left")
+    left2:AddDropdown("Select Waypoint", {"--", "Saved ATM", "Roof", "Spawn", "Shop Route"}, "--")
+    left2:AddLabel("Waypoint Name")
+    left2:AddButton("Go-To Waypoint", function() Window:Notify("Going to waypoint (visual demo)") end)
+    left2:AddButton("Save Waypoint", function() Window:Notify("Waypoint saved") end)
+
+    local right = TeleportsSub:AddSection("Purchasing Utilities", "right")
+    right:AddDropdown("Select Item", {"--", "Ammo", "Mask", "Snack", "Card", "Chip", "Marshmallow"}, "--")
+    right:AddSlider("Amount To Purchase", 1, 25, 1)
+    right:AddButton("Purchase Selected Item", function() Window:Notify("Purchased selected item (visual demo)") end)
+
+    local right2 = TeleportsSub:AddSection("Apartment Teleports", "right")
+    right2:AddDropdown("Select Apartment", {"--", "Box Job Apartments", "Luxury Penthouse", "Project Hallway"}, "--")
+    right2:AddButton("Teleport To Selected Apartment", function() Window:Notify("Apartment selected (visual demo)") end)
+end
+
+local MoneySub = MainTab:AddSubTab("Money")
+do
+    local left = MoneySub:AddSection("Information", "left")
+    left:AddLabel("If you gain more than $500,000 in one session,")
+    left:AddLabel("the script will deposit $500,000 into your ATM")
+    left:AddLabel("for security reasons.")
+
+    local left2 = MoneySub:AddSection("Automated Utilities", "left")
+    left2:AddToggle("Auto-Farm Cards", false)
+    left2:AddToggle("Auto-Farm Chips", false)
+    left2:AddToggle("Auto-Farm Marshmallows", false)
+    left2:AddLabel("Marshmallow Amount - $950")
+    left2:AddSlider("Marshmallow Amount", 1, 10, 5)
+    left2:AddToggle("Auto-Farm Boxes", false)
+    left2:AddButton("Auto Farm Webhook", function() Window:Notify("Webhook test sent") end)
+
+    local right = MoneySub:AddSection("Auto Farm Stats Information", "right")
+    right:AddLabel("Auto Farm Time Elapsed | 0h, 13m, 35s")
+    right:AddLabel("Money Gained | + $77,460", Color3.fromRGB(0,255,140))
+    right:AddButton("Refresh Stats", function() Window:Notify("Stats updated") end)
+
+    local right2 = MoneySub:AddSection("Rejoiner Settings", "right")
+    right2:AddLabel("This will rejoin if you die while farming")
+    right2:AddLabel("marshmallows, everything is recommended on.")
+    right2:AddToggle("Enabled", true)
+    right2:AddToggle("Auto-Buy Guns", false)
+    right2:AddToggle("Auto-Buy Gun If Death While Auto-Farming", false)
+    right2:AddToggle("Auto-Buy Mask If Death While Auto-Farming", false)
+end
+
+local PlayersVisualSub = VisualsTab:AddSubTab("Players", {ShowPreview = true, PreviewTitle = "ESP Preview"})
+do
+    local left = PlayersVisualSub:AddSection("Players - Main Settings", "left")
+    left:AddToggle("Enabled", true)
+    left:AddToggle("Boxes", true)
+    left:AddDropdown("Type", {"Corner", "Box", "Rounded"}, "Corner")
+    left:AddSlider("Rotation", 0, 180, 90)
+    left:AddToggle("Filled", false)
+    left:AddSlider("Rotation Filled", 0, 180, 90)
+    left:AddDropdown("Healthbar", {"Green", "Gradient", "RGB"}, "Gradient")
+    left:AddDropdown("Healthbar side", {"Left", "Right"}, "Left")
+
+    local right = PlayersVisualSub:AddSection("Players - Info Labels", "right")
+    right:AddToggle("Name", true)
+    right:AddDropdown("Name Text Font", {"Verdana", "Gotham", "SourceSans"}, "Verdana")
+    right:AddSlider("Name Text Size", 8, 18, 11)
+    right:AddToggle("Weapon", true)
+    right:AddDropdown("Weapon Text Font", {"Verdana", "Gotham", "SourceSans"}, "Verdana")
+    right:AddSlider("Weapon Text Size", 8, 18, 11)
+    right:AddDropdown("Weapon Side", {"Bottom", "Top"}, "Bottom")
+    right:AddToggle("Distance", false)
+    right:AddToggle("Highlight", false)
+end
+
+local MiscVisualSub = VisualsTab:AddSubTab("Visuals")
+do
+    local left = MiscVisualSub:AddSection("Overlay", "left")
+    left:AddToggle("Crosshair", false)
+    left:AddToggle("FOV Circle", false)
+    left:AddSlider("FOV Radius", 50, 300, 120)
+    left:AddSlider("FOV Thickness", 1, 5, 2)
+
+    local right = MiscVisualSub:AddSection("Colors", "right")
+    right:AddDropdown("Theme Accent", {"Blue", "Purple", "Green", "Red", "White"}, "Blue")
+    right:AddButton("Show Notification", function() Window:Notify("Visual settings applied") end)
+end
+
+local PlayersSub = PlayersTab:AddSubTab("Players", {ShowPreview = true, PreviewTitle = "ESP Preview"})
+do
+    local left = PlayersSub:AddSection("Players - Main Settings", "left")
+    left:AddToggle("Enabled", true)
+    left:AddToggle("Boxes", true)
+    left:AddDropdown("Type", {"Corner", "Box", "Rounded"}, "Corner")
+    left:AddSlider("Rotation", 0, 180, 90)
+    left:AddToggle("Filled", false)
+    left:AddDropdown("Healthbar side", {"Left", "Right"}, "Left")
+
+    local right = PlayersSub:AddSection("Players - Info Labels", "right")
+    right:AddToggle("Name", true)
+    right:AddDropdown("Name Text Font", {"Verdana", "Gotham", "SourceSans"}, "Verdana")
+    right:AddSlider("Name Text Size", 8, 18, 11)
+    right:AddToggle("Weapon", true)
+    right:AddDropdown("Weapon Text Font", {"Verdana", "Gotham", "SourceSans"}, "Verdana")
+    right:AddSlider("Weapon Text Size", 8, 18, 11)
+    right:AddDropdown("Weapon Side", {"Bottom", "Top"}, "Bottom")
+end
+
+local UISettingsSub = SettingsTab:AddSubTab("UI")
+do
+    local left = UISettingsSub:AddSection("Menu Effects", "left")
+    left:AddToggle("Bottom Tabs", true)
+    left:AddToggle("Menu Sounds", true)
+    left:AddToggle("Smooth Open", true)
+    left:AddButton("Test Notification", function() Window:Notify("Settings tab working") end)
+
+    local right = UISettingsSub:AddSection("Theme", "right")
+    right:AddDropdown("Preset", {"Blue", "Purple", "Green", "Red", "White"}, "Blue")
+    right:AddSlider("UI Scale", 0.8, 1.3, 1)
+    right:AddKeybind("Hide Key", Enum.KeyCode.Z, function(key)
+        Window.HideKey = key
+        Window:Notify("Hide key changed to " .. key.Name)
+    end)
+end
+
+local ConfigSub = SettingsTab:AddSubTab("Config")
+do
+    local left = ConfigSub:AddSection("Config", "left")
+    left:AddDropdown("Config Slot", {"Default", "Legit", "Visual"}, "Default")
+    left:AddButton("Load Config", function() Window:Notify("Config loaded") end)
+    left:AddButton("Save Config", function() Window:Notify("Config saved") end)
+    left:AddButton("Reset Config", function() Window:Notify("Config reset") end)
+
+    local right = ConfigSub:AddSection("Preview Tools", "right")
+    right:AddButton("Refresh Preview", function() Window:Notify("Preview refreshed") end)
+    right:AddLabel("Sin opciones duplicadas.")
+end
+
+Window:SelectTab(MainTab)
+Window:Notify("UI loaded")
